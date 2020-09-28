@@ -45,14 +45,22 @@ function pc(data) {
 	/** Computer Exercise starts here  */
 
 	// Task 5.0.8 -- Drawing the Lines
-	var foreground = pc_svg.append("g");
-	foreground.selectAll('path').enter().append('path')
+	var foreground = pc_svg.append("g").attr("class", "foreground");
+	foreground.selectAll('path')
 		.data(data)
-		.attr('d', function(drawPath){ console.log(drawPath) });
+		.enter().append('path')
+		.attr('d', drawPath);
 
 
 	// Task 5.0.9 -- Drawing Axes
-	var axes 
+	var axes = pc_svg.selectAll("dimensions")
+		.data(data.columns)
+		.enter().append('g').attr("class", "dimension axis")
+		.attr("transform", function(d, i){
+			return "translate("+ data(d) +",0 )";
+		})
+		.call()
+	
 
 
 	// 5.0.10 -- Appending Axes Titles
