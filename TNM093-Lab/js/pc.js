@@ -48,26 +48,31 @@ function pc(data) {
 	var foreground = pc_svg.append("g").attr("class", "foreground");
 	foreground.selectAll('path')
 		.data(data)
-		.enter().append('path')
-		.attr('d', drawPath);
-
+		.enter()
+		.append('path')
+		.attr('d', function(d) { return drawPath(d); });
 
 	// Task 5.0.9 -- Drawing Axes
-	var axes = pc_svg.selectAll("dimensions")
-		.data(data.columns)
-		.enter().append('g').attr("class", "dimension axis")
-		.attr("transform", function(d, i){
-			return "translate("+ data(d) +",0 )";
-		})
-		.call()
-	
-
+	var axes = pc_svg.selectAll(".dimension").data(dimensions)
+	.enter()
+	.append("g")
+	.attr("class", "dimension axis")
+	.attr("transform", function(d)  { return "translate(" + x(d) + ")"; } )
+	.each(function(d) {d3.select(this).call(yAxis.scale(y[d])); });
 
 	// 5.0.10 -- Appending Axes Titles
-	
+	axes.append("text")
+		.attr("class", "title")
+		.attr("y", -9)
+		.text(function(d) { return d; })
+		.style("fill", "black");
 
 	// 5.0.11 -- Interaction, brushing the axes
-
+	axes.append("g").attr("class", "brush")
+		.each(function(d) { return d3.select(this).call(perAxisBrush(d)); })
+		.selectAll("rect")
+			.attr("x", -8)
+			.attr("width", 16);
 
 	//5.0.12 -- Interaction, dragging the Axes
 	
