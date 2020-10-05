@@ -42,32 +42,27 @@ function sp(data) {
 
   //Task 5.0.1  -- Create the x-axis
   var dataSetX = data.map(function(d){ return +d[x_var] });
-  var x_min = d3.min(dataSetX);
-  var x_max = d3.max(dataSetX);
   var x = d3.scaleLinear()
-      .domain([x_min, x_max])
+      .domain([d3.min(dataSetX), d3.max(dataSetX)])
       .range([0, width]);
 
   var x_axis = d3.axisBottom().scale(x);
 
   //Task 5.0.2  -- Append the axes to the sp_svg
+
+  /* Translate the axis to put it at the bottom, we translate on the y-axis by the svg windows height */
   sp_svg.append("g").call(x_axis).attr("transform", "translate(0, "+height+")");
 
   //Task 5.0.3  -- Create y-axis
-
   var dataSetY = data.map(function(d){ return +d[y_var] });
-  var y_min = d3.min(dataSetY);
-  var y_max = d3.max(dataSetY);
   var y = d3.scaleLinear()
-      .domain([y_min, y_max])
+      .domain([d3.min(dataSetY), d3.max(dataSetY)])
       .range([height, 0]);
 
   var y_axis = d3.axisLeft().scale(y);
 
   // Task 5.0.4 -- Append the axis to sp_svg
-
   sp_svg.append("g").call(y_axis);
-
 
   // Task 5.0.5 -- Append circles to sp_svg
   var myCircles = sp_svg.append("g")
