@@ -54,7 +54,8 @@ function info(data) {
 		.enter()
 		.append("td")
 		.text(function(d) { return d.value; })
-
+		.on("mouseover", selectValues)
+		.on("mouseout", resetSelectedValues);
 		/**
 		*  Final Task -- call the two function below.
 		*/
